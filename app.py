@@ -12,25 +12,27 @@ bottle.debug(True)
 
 @get('/')
 def index():
-    response.content_type = 'text/plain; charset=utf-8'
-    ret =  'Hello world, I\'m %s!\n\n' % os.getpid()
-    ret += 'Request vars:\n'
-    for k, v in request.environ.iteritems():
-        if 'bottle.' in k:
-            continue
-        ret += '%s=%s\n' % (k, v)
+    response.content_type = 'application/html; charset=utf-8'
+    ret = 'If you need to see the API Doc go to:'
+    ret += '<a href="/api">API Doc</a>'
+    return ret
 
-    ret += '\n'
-    ret += 'Environment vars:\n'
-
-    for k, v in env.iteritems():
-        if 'bottle.' in k:
-            continue
-        ret += '%s=%s\n' % (k, v)
+@get('/api')
+def api_doc():
+    response.content_type = 'application/html; charset=utf-8'
+    ret = 'API Doc'
 
     return ret
 
-@get('/users')
+@get('/api/users')
+def users():
+    response.content_type = 'application/json; charset=utf-8'
+    return {
+        'status': 'success',
+        'users': []
+    }
+
+@get('/api/categories')
 def users():
     response.content_type = 'application/json; charset=utf-8'
     return {
