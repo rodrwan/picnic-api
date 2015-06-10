@@ -30,4 +30,12 @@ def index():
 
     return ret
 
+@get('/users')
+def users():
+    response.content_type = 'application/json; charset=utf-8'
+    return {
+        'status': 'success',
+        'users': []
+    }
+
 bottle.run(host='0.0.0.0', port=argv[1])
