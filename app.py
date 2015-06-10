@@ -6,23 +6,25 @@ from os import environ as env
 from sys import argv
 
 import bottle
-from bottle import default_app, request, route, response, get
+from bottle import default_app, request, route, response, get, view
 
 bottle.debug(True)
 
 @get('/')
+@view('views/index')
 def index():
     response.content_type = 'text/html; charset=utf-8'
-    ret = 'If you need to see the API Doc go to:'
-    ret += '<a href="/api">API Doc</a>'
-    return ret
+    title = 'Home'
+
+    return dict(title=title)
 
 @get('/api')
+@view('views/api_template')
 def api_doc():
     response.content_type = 'text/html; charset=utf-8'
-    ret = 'API Doc'
+    title = 'API Doc'
 
-    return ret
+    return dict(title=title)
 
 @get('/api/users')
 def users():
