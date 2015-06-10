@@ -12,14 +12,14 @@ bottle.debug(True)
 
 @get('/')
 def index():
-    response.content_type = 'application/html; charset=utf-8'
+    response.content_type = 'text/html; charset=utf-8'
     ret = 'If you need to see the API Doc go to:'
     ret += '<a href="/api">API Doc</a>'
     return ret
 
 @get('/api')
 def api_doc():
-    response.content_type = 'application/html; charset=utf-8'
+    response.content_type = 'text/html; charset=utf-8'
     ret = 'API Doc'
 
     return ret
