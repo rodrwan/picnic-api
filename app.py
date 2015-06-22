@@ -14,6 +14,7 @@ import bottle
 from bottle import default_app, request, route, response, get, post, view
 import bottle_pgsql
 import psycopg2
+import urlparse
 
 pgdb   = 'picnic'
 pguser = os.environ.get('PG_USER')
@@ -21,7 +22,18 @@ pghost = os.environ.get('PG_HOST')
 connectionData  = pgdb, pguser, pghost
 connectionStr = "dbname='{0[0]}' user='{0[1]}' host='{0[2]}'"
 connectionQuery = connectionStr.format(connectionData)
-conn = psycopg2.connect(connectionQuery)
+try:
+    urlparse.uses_netloc.append("postgres")
+    url = urlparse.urlparse(os.getenv("DATABASE_URL", 'no db url'))
+    conn = psycopg2.connect(
+      database=url.path[1:],
+      user=url.username,
+      password=url.password,
+      host=url.hostname,
+      port=url.port
+    )
+except:
+    conn = psycopg2.connect(connectionQuery)
 
 # plugin = bottle_pgsql.Plugin(connectionQuery)
 bottle.debug(True)
