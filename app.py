@@ -24,7 +24,7 @@ connectionStr = "dbname='{0[0]}' user='{0[1]}' host='{0[2]}'"
 connectionQuery = connectionStr.format(connectionData)
 try:
     urlparse.uses_netloc.append("postgres")
-    url = urlparse.urlparse('postgres://nlqlebihfzfpyi:TA6U266O4fA3ktsSZhVDg7jG2b@ec2-54-83-205-164.compute-1.amazonaws.com:5432/d1ih96mbtah8j6')
+    url = urlparse.urlparse('') # 'postgres://nlqlebihfzfpyi:TA6U266O4fA3ktsSZhVDg7jG2b@ec2-54-83-205-164.compute-1.amazonaws.com:5432/d1ih96mbtah8j6'
     conn = psycopg2.connect(
       database=url.path[1:],
       user=url.username,
@@ -424,18 +424,27 @@ def category(category):
 def topic(category, id):
     response.content_type = 'application/json; charset=utf-8'
     db = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-    sql = "SELECT * FROM category_topics ct INNER JOIN content c on ct.id = c.category_topic_id WHERE c.id ='" + id + "';"
+    sql = "SELECT * FROM category_topics ct INNER JOIN content c on ct.id = c.category_topic_id WHERE c.category_topic_id ='" + id + "';"
     db.execute(sql)
-    rows = db.fetchone()
+    rows = db.fetchall()
 
-    data = {}
-    for key,value in rows.items():
-        data[key] = value
+    data = []
+    for row in rows:
+        topic = {}
+        for key,value in row.items():
+            topic[key] = value
+        data.append(topic)
 
+    meta = {
+        'title': data[0]['title'],
+        'sub_title': data[0]['sub_title'],
+        'thumbnail': data[0]['thumbnail']
+    }
     if data:
         return {
             'status': 'success',
-            'topic': data
+            'meta': meta,
+            'topics': data
         }
     else:
         return {
