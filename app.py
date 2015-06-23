@@ -424,7 +424,7 @@ def category(category):
 def topic(category, id):
     response.content_type = 'application/json; charset=utf-8'
     db = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-    sql = "SELECT * FROM content WHERE id = '" + id + "';"
+    sql = "SELECT * FROM category_topics ct INNER JOIN content c on ct.id = c.category_topic_id WHERE c.id ='" + id + "';"
     db.execute(sql)
     rows = db.fetchone()
 
