@@ -15,6 +15,7 @@ from bottle import default_app, request, route, response, get, post, view
 import bottle_pgsql
 import psycopg2
 import urlparse
+import tokenlib
 
 pgdb   = 'picnic'
 pguser = os.environ.get('PG_USER')
@@ -116,15 +117,87 @@ def documentaries():
             'users': []
         }
 
-@post('/api/users')
-def users_post():
+@get('/api/users')
+@enable_cors
+def users():
     response.content_type = 'application/json; charset=utf-8'
-    res = request.json
+    db = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    sql = "SELECT * FROM users;"
+    db.execute(sql)
+    rows = db.fetchall()
+    db.close()
+
+    if rows:
+        return {
+            'status': 'success',
+            'data': rows
+        }
+    else:
+        return {
+            'status': 'success',
+            'users': []
+        }
+
+@post('/api/user/create')
+@enable_cors
+def users_create():
+    response.content_type = 'application/json; charset=utf-8'
+    res = {
+        'username': request.forms.get('username'),
+        'password': request.forms.get('password'),
+        'email': request.forms.get('email')
+    }
+
+    db = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    secret_token = tokenlib.make_token(res, secret="picoteo grafico")
+    response.status = 200
+    sql = "INSERT INTO users (username, email, password, session_token) VALUES ('%s', '%s', '%s', '%s')" % (res['username'], res['email'], res['password'], secret_token)
+    db.execute(sql)
+    conn.commit()
+    db.close()
 
     return {
         'status': 'success',
-        'data': res['data']
+        'data': {
+            'message': 'user created',
+            'session_token': secret_token
+        }
     }
+
+@post('/api/user/session')
+@enable_cors
+def users_post():
+    response.content_type = 'application/json; charset=utf-8'
+    res = {
+        'password': request.forms.get('password'),
+        'email': request.forms.get('email')
+    }
+    db = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
+    response.status = 202
+    sql = "SELECT username, session_token FROM users WHERE email = '%s' and password = '%s'" % (res['email'], res['password'])
+    db.execute(sql)
+    rows = db.fetchone()
+    print rows
+    db.close()
+
+    if rows:
+        response.status = 202
+        return {
+        'status': 'success',
+            'data': {
+                'session_token': rows['session_token'],
+                'username': rows['username']
+            }
+        }
+    else:
+        response.status = 401
+        return {
+            'status': 'success',
+            'data': {
+                'message': 'session over'
+            }
+        }
 
 @route('/api/categories', methods=['GET'])
 @enable_cors

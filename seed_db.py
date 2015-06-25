@@ -105,11 +105,11 @@ c.execute(sql)
 
 sql = """
 CREATE TABLE "users" (
-"id" integer NOT NULL,
+"id" SERIAL NOT NULL,
 "username" VARCHAR(255) NOT NULL,
 "email" VARCHAR(255) NOT NULL,
 "password" VARCHAR(255) NOT NULL,
-"session_token" VARCHAR(255) NOT NULL,
+"session_token" VARCHAR(255),
 CONSTRAINT users_pk PRIMARY KEY (id)
 ) WITH (
 OIDS=FALSE
