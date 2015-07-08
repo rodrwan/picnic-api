@@ -60,6 +60,7 @@ CREATE TABLE "documentaries" (
 "media" TEXT NOT NULL,
 "type" TEXT NOT NULL,
 "time" TEXT NOT NULL,
+"credits" TEXT NOT NULL,
 CONSTRAINT documentaries_pk PRIMARY KEY (id)
 ) WITH (
 OIDS=FALSE
@@ -144,6 +145,7 @@ CREATE TABLE "content" (
 "media" TEXT  NOT NULL,
 "type" TEXT NOT NULL,
 "time" REAL NOT NULL,
+"credits" TEXT NOT NULL,
 CONSTRAINT content_pk PRIMARY KEY (id)
 ) WITH (
 OIDS=FALSE
@@ -157,18 +159,18 @@ ALTER TABLE "content" ADD CONSTRAINT content_fk0 FOREIGN KEY (category_topic_id)
 c.execute(sql)
 
 sql = """
-INSERT INTO documentaries (id, thumbnail, title, sub_title, brief, content, media, type, time) VALUES (1,
+INSERT INTO documentaries (id, thumbnail, title, sub_title, brief, content, media, type, time, credits) VALUES (1,
 'doc1/thumbnail.png',
 'Como steve jobs cambio el mundo',
 'Documentales, 1 video',
 'Historias y filosofía y logos del creador de la marca Apple.',
 'En este documental se repasa la vida, la filosofía y los logros de Steve Jobs creando una de las compañias más rentables, Apple.',
-'1Bhmz0g9CsQ', 'youtube', '43,08');
+'1Bhmz0g9CsQ', 'youtube', '43,08', 'Discovery Channel, youtube. 2011');
 """
 c.execute(sql)
 print "doc 1"
 sql = """
-INSERT INTO documentaries (id, thumbnail, title, sub_title, brief, content, media, type, time) VALUES (2,
+INSERT INTO documentaries (id, thumbnail, title, sub_title, brief, content, media, type, time, credits) VALUES (2,
 'doc2/thumbnail.png',
 'Helvética',
 'Documentales, 1 video',
@@ -176,12 +178,14 @@ INSERT INTO documentaries (id, thumbnail, title, sub_title, brief, content, medi
 'Documental sobre el diseño gráfico, la tipografía y en general sobre la cultura visual. La película se centra en la popular fuente tipográfica Helvética, que en el año 2007 hizo su 50 aniversario, e incluye entrevistas con los mejores nombres del mundo del diseño como Erik Spiekermann, Matthew Carter, Massino Vignelli, Wim Crouwel,, Hernmann Zapf, Neville Brody, Stefan Sagmeister. Con motivo del 50 aniversario de esta tipografía, Gary Hustwit ha dirigido y producido una película documental que explora el uso de la tipografía en los espacios urbanos y aporta la reflexiones de renombramientos diseñadores acerca de su trabajo, el proceso creativo y las elecciones estéticas detrás de su uso.',
 'doc2',
 'local',
-'90,42');
+'90,42',
+'Gary Hustwit, youtube. 2007'
+);
 """
 c.execute(sql)
 print "doc 2"
 sql = """
-INSERT INTO documentaries (id, thumbnail, title, sub_title, brief, content, media, type, time) VALUES (3,
+INSERT INTO documentaries (id, thumbnail, title, sub_title, brief, content, media, type, time, credits) VALUES (3,
 'doc3/thumbnail.png',
 'Objectified',
 'Documentales, 1 video',
@@ -189,22 +193,24 @@ INSERT INTO documentaries (id, thumbnail, title, sub_title, brief, content, medi
 'Documental sobre el diseño industrial. En él se examinan los objetos y el proceso creativo de quien los diseña: desde los cepillos de dientes hasta los gadgets más sofisticados.',
 'oqPGscXtTg8',
 'youtube',
-'75,41');
+'75,41',
+'Gary Hustwit, youtube. 2009'
+);
 """
 c.execute(sql)
 print "doc 3"
 sql = """
-INSERT INTO documentaries (id, thumbnail, title, sub_title, brief, content, media, type, time) VALUES (4, 'doc4/thumbnail.png', 'Estos tíos exóticos de barcelona', 'Documentales, 1 video', 'Documental trata sobre la situación actual del diseño en Barcelona, en el que participan varios diseñadores dando su opinión y lo que esperan del futuro.', 'Creado hace algunos años como proyecto de titulo, este documental trata sobre la situación actual del diseño en Barcelona. En él, varios profesionales del diseño dan sus opiniones sobre la evolución del sector en esta ciudad y lo que esperan que ocurra en el futuro.', 'doc4', 'local', '47,25');
+INSERT INTO documentaries (id, thumbnail, title, sub_title, brief, content, media, type, time, credits) VALUES (4, 'doc4/thumbnail.png', 'Estos tíos exóticos de barcelona', 'Documentales, 1 video', 'Documental trata sobre la situación actual del diseño en Barcelona, en el que participan varios diseñadores dando su opinión y lo que esperan del futuro.', 'Creado hace algunos años como proyecto de titulo, este documental trata sobre la situación actual del diseño en Barcelona. En él, varios profesionales del diseño dan sus opiniones sobre la evolución del sector en esta ciudad y lo que esperan que ocurra en el futuro.', 'doc4', 'local', '47,25', 'Gary Hustwit, youtube. 2009');
 """
 c.execute(sql)
 print "doc 4"
 sql = """
-INSERT INTO documentaries (id, thumbnail, title, sub_title, brief, content, media, type, time) VALUES (5, 'doc5/thumbnail.png', '¿Qué es el diseño gráfico?', 'Documentales, 1 video', 'Documental argentino en el cual profesionales del diseño gráfico tratan de explicar qué es el diseño gráfico, de el salen varias preguntas para reflexionar.', 'Documental argentino en el que catedráticos, profesionales y expertos intentan definir “diseño gráfico”. Surgen preguntas interesantes y es un documental que nos hará reflexionar.', 'doc5', 'local', '55,50');
+INSERT INTO documentaries (id, thumbnail, title, sub_title, brief, content, media, type, time, credits) VALUES (5, 'doc5/thumbnail.png', '¿Qué es el diseño gráfico?', 'Documentales, 1 video', 'Documental argentino en el cual profesionales del diseño gráfico tratan de explicar qué es el diseño gráfico, de el salen varias preguntas para reflexionar.', 'Documental argentino en el que catedráticos, profesionales y expertos intentan definir “diseño gráfico”. Surgen preguntas interesantes y es un documental que nos hará reflexionar.', 'doc5', 'local', '55,50', 'Cátedra Gabriele, FADU­UBA, youtube. 2013');
 """
 c.execute(sql)
 print "doc 5"
 sql = """
-INSERT INTO documentaries (id, thumbnail, title, sub_title, brief, content, media, type, time) VALUES (6, 'doc6/thumbnail.png', 'No logo', 'Documentales, 1 video', 'Basado en el best-seller de Naomi Klein, trata del impacto que tienen las marcas en la sociedad.', 'Documental basado en el best-seller de Naomi Klein del mismo nombre. Trata del impacto de las marcas en la sociedad', 'doc6', 'local', '40,38');
+INSERT INTO documentaries (id, thumbnail, title, sub_title, brief, content, media, type, time, credits) VALUES (6, 'doc6/thumbnail.png', 'No logo', 'Documentales, 1 video', 'Basado en el best-seller de Naomi Klein, trata del impacto que tienen las marcas en la sociedad.', 'Documental basado en el best-seller de Naomi Klein del mismo nombre. Trata del impacto de las marcas en la sociedad', 'doc6', 'local', '40,38', 'Naomi Klein, vimeo. 2003');
 """
 c.execute(sql)
 print "doc 6"
@@ -307,128 +313,128 @@ print "cat 14"
 
 
 sql =  """
-INSERT INTO content (id, category_topic_id, content_title, content, media, type, time)
-VALUES (1, 1, 'Romanticismo', '<p>El movimiento Arts and Crafts (Artes y oficios) fue un movimiento artístico que surgió en Inglaterra en 1880 y se desarrolló en el Reino Unido y Estados Unidos en los últimos años del siglo XIX y comienzos del siglo XX.</p><p>El Arts & Crafts se asocia sobre todo con la figura de William Morris, artesano, impresor, diseñador, escritor, poeta, activista político y, en fin, hombre polifacético, que se ocupó de la recuperación de los artes y oficios medievales, renegando de las nacientes formas de producción en masa. Aparte de William Morris, sus principales impulsores fueron Charles Robert Ashbee, T. J. Cobden Sanderson, Walter Crane, Phoebe Anna Traquair, Herbert Tudor Buckland, Charles Rennie Mackintosh, Frank Lloyd Wright, Christopher Dresser, Edwin Lutyens, Ernest Gimson, Gustav Stickley, y los artistas del movimiento prerrafaelita.</p>', 'OV1M09Hj4DU', 'youtube', 05.05);
+INSERT INTO content (id, category_topic_id, content_title, content, media, type, time, credits)
+VALUES (1, 1, 'Romanticismo', '<p>El movimiento Arts and Crafts (Artes y oficios) fue un movimiento artístico que surgió en Inglaterra en 1880 y se desarrolló en el Reino Unido y Estados Unidos en los últimos años del siglo XIX y comienzos del siglo XX.</p><p>El Arts & Crafts se asocia sobre todo con la figura de William Morris, artesano, impresor, diseñador, escritor, poeta, activista político y, en fin, hombre polifacético, que se ocupó de la recuperación de los artes y oficios medievales, renegando de las nacientes formas de producción en masa. Aparte de William Morris, sus principales impulsores fueron Charles Robert Ashbee, T. J. Cobden Sanderson, Walter Crane, Phoebe Anna Traquair, Herbert Tudor Buckland, Charles Rennie Mackintosh, Frank Lloyd Wright, Christopher Dresser, Edwin Lutyens, Ernest Gimson, Gustav Stickley, y los artistas del movimiento prerrafaelita.</p>', 'OV1M09Hj4DU', 'youtube', 05.05, 'Caucholatv, youtube. 2010');
 """
 c.execute(sql)
 print "cat 15"
 sql = """
-INSERT INTO content (id, category_topic_id, content_title, content, media, type, time)
-VALUES (2, 2, 'Feuvismo', '<p>El feuvismo, también conocido como fauvismo, en francés fauvisme, (1904-1908) fue un movimiento pictórico francés caracterizado por un empleo provocativo del color. Su nombre procede del calificativo fauve, fiera en español, dado por el crítico de arte Louis Vauxcelles al conjunto de obras presentadas en el Salón de Otoño de París de 1905. El precursor de este movimiento fue Henri Matisse y su mayor influencia en la pintura posterior se ha relacionado con la utilización libre del color.</p>', 'BwbsIRMTw3g', 'youtube', 03.55);
+INSERT INTO content (id, category_topic_id, content_title, content, media, type, time, credits)
+VALUES (2, 2, 'Feuvismo', '<p>El feuvismo, también conocido como fauvismo, en francés fauvisme, (1904-1908) fue un movimiento pictórico francés caracterizado por un empleo provocativo del color. Su nombre procede del calificativo fauve, fiera en español, dado por el crítico de arte Louis Vauxcelles al conjunto de obras presentadas en el Salón de Otoño de París de 1905. El precursor de este movimiento fue Henri Matisse y su mayor influencia en la pintura posterior se ha relacionado con la utilización libre del color.</p>', 'BwbsIRMTw3g', 'youtube', 03.55, 'Grupo CHEHA, youtube. 2010');
 """
 c.execute(sql)
 print "cat 16"
 sql = """
-INSERT INTO content (id, category_topic_id, content_title, content, media, type, time)
-VALUES (3, 2, 'Cubismo', E'<p>El cubismo fue un movimiento artístico desarrollado entre 1907 y 1914, nacido en Francia y encabezado por Pablo Picasso, Georges Braque, Jean Metzinger, Albert Gleizes, Robert Delaunay y Juan Gris. Es una tendencia esencial, pues da pie al resto de las vanguardias europeas del siglo XX. No se trata de un ismo más, sino de la ruptura definitiva con la pintura tradicional.</p><p>El término cubismo fue acuñado por el crítico francés Louis Vauxcelles, el mismo que había bautizado a los fauvistas motejándolos de fauves (fieras); en el caso de Braque y sus pinturas de L\\'Estaque, Vauxcelles dijo, despectivamente, que era una pintura compuesta por «pequeños cubos». Se originó así el concepto de «cubismo». El cubismo literario es otra rama que se expresa con poesías cuya estructura forma figuras o imágenes que ejemplifican el tema, la rima es opcional y ni tienen una métrica específica ni se organizan en versos.</p>', 'Rn8UFDKUoRc', 'youtube', 05.03);
+INSERT INTO content (id, category_topic_id, content_title, content, media, type, time, credits)
+VALUES (3, 2, 'Cubismo', E'<p>El cubismo fue un movimiento artístico desarrollado entre 1907 y 1914, nacido en Francia y encabezado por Pablo Picasso, Georges Braque, Jean Metzinger, Albert Gleizes, Robert Delaunay y Juan Gris. Es una tendencia esencial, pues da pie al resto de las vanguardias europeas del siglo XX. No se trata de un ismo más, sino de la ruptura definitiva con la pintura tradicional.</p><p>El término cubismo fue acuñado por el crítico francés Louis Vauxcelles, el mismo que había bautizado a los fauvistas motejándolos de fauves (fieras); en el caso de Braque y sus pinturas de L\\'Estaque, Vauxcelles dijo, despectivamente, que era una pintura compuesta por «pequeños cubos». Se originó así el concepto de «cubismo». El cubismo literario es otra rama que se expresa con poesías cuya estructura forma figuras o imágenes que ejemplifican el tema, la rima es opcional y ni tienen una métrica específica ni se organizan en versos.</p>', 'Rn8UFDKUoRc', 'youtube', 05.03, 'Grupo CHEHA, youtube. 2010 ');
 """
 c.execute(sql)
 print "cat 17"
 sql = """
-INSERT INTO content (id, category_topic_id, content_title, content, media, type, time)
-VALUES (4, 2, 'Futurismo', '<p>El futurismo surgió en Milán, Italia, impulsado por Filippo Tommaso Marinetti. Este movimiento buscaba romper con la tradición, el pasado y los signos convencionales que la historia del arte consideraba como elementos principales a la poesía, el valor, la audacia y la revolución, ya que se pregonaba el movimiento agresivo, el insomnio febril, el paso gimnástico, el salto peligroso y la bofetada irreverente. Tenía como postulados: la exaltación de lo sensual, lo nacional y guerrero, la adoración de la máquina, el retrato de la realidad en movimiento, lo objetivo de lo literario y la disposición especial de lo escrito, con el fin de darle una expresión plástica.</p><p>Rechazaba la estética tradicional e intentó ensalzar la vida contemporánea, basándose en sus dos temas dominantes: la máquina y el movimiento. Se recurría, de este modo, a cualquier medio expresivo (artes plásticas, arquitectura, urbanismo, publicidad, moda, cine, música, poesía) capaz de crear un verdadero arte de acción, con el propósito de rejuvenecer y construir un nuevo orden en el mundo.</p>', '847y5CGCqys', 'youtube', 04.30);
+INSERT INTO content (id, category_topic_id, content_title, content, media, type, time, credits)
+VALUES (4, 2, 'Futurismo', '<p>El futurismo surgió en Milán, Italia, impulsado por Filippo Tommaso Marinetti. Este movimiento buscaba romper con la tradición, el pasado y los signos convencionales que la historia del arte consideraba como elementos principales a la poesía, el valor, la audacia y la revolución, ya que se pregonaba el movimiento agresivo, el insomnio febril, el paso gimnástico, el salto peligroso y la bofetada irreverente. Tenía como postulados: la exaltación de lo sensual, lo nacional y guerrero, la adoración de la máquina, el retrato de la realidad en movimiento, lo objetivo de lo literario y la disposición especial de lo escrito, con el fin de darle una expresión plástica.</p><p>Rechazaba la estética tradicional e intentó ensalzar la vida contemporánea, basándose en sus dos temas dominantes: la máquina y el movimiento. Se recurría, de este modo, a cualquier medio expresivo (artes plásticas, arquitectura, urbanismo, publicidad, moda, cine, música, poesía) capaz de crear un verdadero arte de acción, con el propósito de rejuvenecer y construir un nuevo orden en el mundo.</p>', '847y5CGCqys', 'youtube', 04.30, 'Grupo CHEHA, youtube. 2010');
 """
 c.execute(sql)
 print "cat 18"
 sql = """
-INSERT INTO content (id, category_topic_id, content_title, content, media, type, time)
-VALUES (5, 3, 'POST-GUERRA', '', 'ni72mNDNBV4', 'youtube', 5.51);
+INSERT INTO content (id, category_topic_id, content_title, content, media, type, time, credits)
+VALUES (5, 3, 'Escuela de Ulm', '', 'ni72mNDNBV4', 'youtube', 5.51, 'Design.2704, youtube. 2015');
 """
 c.execute(sql)
 print "cat 19"
 sql = """
-INSERT INTO content (id, category_topic_id, content_title, content, media, type, time)
-VALUES (6, 3, 'POST-GUERRA', '', 'X7GaJTi1ceQ', 'youtube', 1.01);
+INSERT INTO content (id, category_topic_id, content_title, content, media, type, time, credits)
+VALUES (6, 3, 'Arte Cinético /Glosario', '', 'X7GaJTi1ceQ', 'youtube', 1.01, 'Tvmacay, youtube. 2015');
 """
 c.execute(sql)
 print "cat 20"
 sql = """
-INSERT INTO content (id, category_topic_id, content_title, content, media, type, time)
-VALUES (7, 3, 'POST-GUERRA', '', '308PDQ3szaM', 'youtube', 5.48);
+INSERT INTO content (id, category_topic_id, content_title, content, media, type, time, credits)
+VALUES (7, 3, 'Op Art- Arte Optico', '', '308PDQ3szaM', 'youtube', 5.48, 'Matias Perez Montalbetti, youtube. 2008');
 """
 c.execute(sql)
 
 sql = """
-INSERT INTO content (id, category_topic_id, content_title, content, media, type, time)
-VALUES (8, 3, 'POST-GUERRA', '', 'V5BiVuMDtWU', 'youtube', 7.39);
+INSERT INTO content (id, category_topic_id, content_title, content, media, type, time, credits)
+VALUES (8, 3, 'Minimalismo', '', 'V5BiVuMDtWU', 'youtube', 7.39, 'Educatina, youtube. 2011');
 """
 c.execute(sql)
 print "cat 21"
 sql = """
-INSERT INTO content (id, category_topic_id, content_title, content, media, type, time)
-VALUES (9, 4, 'POST-MODERNISMO ', '<p>Las diferentes corrientes del movimiento postmoderno aparecieron durante la segunda mitad del siglo XX. Aunque se aplica a corrientes muy diversas, todas ellas comparten la idea de que el proyecto modernista fracasó en su intento de renovación radical de las formas tradicionales del arte y la cultura, el pensamiento y la vida social.</p><p>El término posmodernidad o postmodernidad fue utilizado para designar generalmente a un amplio número de movimientos artísticos, culturales, literarios y filosóficos del siglo XX, que se extienden hasta hoy, definidos en diverso grado y manera por su oposición o superación de las tendencias de la Edad Moderna.', 'aw_QtNv_ofs', 'youtube', 8.40);
+INSERT INTO content (id, category_topic_id, content_title, content, media, type, time, credits)
+VALUES (9, 4, 'Modernidad/ Postmodernidad', '<p>Las diferentes corrientes del movimiento postmoderno aparecieron durante la segunda mitad del siglo XX. Aunque se aplica a corrientes muy diversas, todas ellas comparten la idea de que el proyecto modernista fracasó en su intento de renovación radical de las formas tradicionales del arte y la cultura, el pensamiento y la vida social.</p><p>El término posmodernidad o postmodernidad fue utilizado para designar generalmente a un amplio número de movimientos artísticos, culturales, literarios y filosóficos del siglo XX, que se extienden hasta hoy, definidos en diverso grado y manera por su oposición o superación de las tendencias de la Edad Moderna.', 'aw_QtNv_ofs', 'youtube', 8.40, 'Claudia Giménez, youtube. 2014');
 """
 c.execute(sql)
 print "cat 22"
 sql = """
-INSERT INTO content (id, category_topic_id, content_title, content, media, type, time)
-VALUES (10, 4, 'POST-MODERNISMO ', '', 'ul8avVPEGME', 'youtube', 26.30);
+INSERT INTO content (id, category_topic_id, content_title, content, media, type, time, credits)
+VALUES (10, 4, 'Movimientos de la cultura Universal', '', 'ul8avVPEGME', 'youtube', 26.30, 'Marcelo SAG, youtube. 2015');
 """
 c.execute(sql)
 print "cat 23"
 sql = """
-INSERT INTO content (id, category_topic_id, content_title, content, media, type, time)
-VALUES (11, 5, 'ORÍGENES, TRADICIONES Y PRACTICAS', '<p>En Chile, la Escuela de Artes Aplicadas de la Universidad de Chile es el antecedente previo para la fundación, a fines de los setenta, de las primeras escuelas de diseño en el país. De ahí que el Diseño gráfico, como disciplina proyectual y actividad profesional, reconozca un desarrollo de poco más de cuatro décadas. En el capítulo, referentes generacionales de todo este proceso reflexionaran en torno a aristas de índole internacional y nacional privadas de consenso: el origen diferenciado como práctica y disciplina; la conciliación entre la autoría y el funcionalismo; y el complejo distingo de una identidad visual país.</p>', 'qf6FbdhNk7g', 'youtube', 51.01);
+INSERT INTO content (id, category_topic_id, content_title, content, media, type, time, credits)
+VALUES (11, 5, 'ORÍGENES, TRADICIONES Y PRACTICAS', '<p>En Chile, la Escuela de Artes Aplicadas de la Universidad de Chile es el antecedente previo para la fundación, a fines de los setenta, de las primeras escuelas de diseño en el país. De ahí que el Diseño gráfico, como disciplina proyectual y actividad profesional, reconozca un desarrollo de poco más de cuatro décadas. En el capítulo, referentes generacionales de todo este proceso reflexionaran en torno a aristas de índole internacional y nacional privadas de consenso: el origen diferenciado como práctica y disciplina; la conciliación entre la autoría y el funcionalismo; y el complejo distingo de una identidad visual país.</p>', 'qf6FbdhNk7g', 'youtube', 51.01, 'Patricio Muñoz G Dereojo comunicaciones, youtube. 2013');
 """
 c.execute(sql)
 print "cat 24"
 sql = """
-INSERT INTO content (id, category_topic_id, content_title, content, media, type, time)
-VALUES (12, 6, 'VICENTE LARREA AÑOS 60', '<p>En 1961 ingresa a la Escuela de Artes Aplicadas de la Universidad de Chile, estudia dibujo publicitario y decoración de interiores.</p><p>En 1963 se incorpora al Departamento de Extensión Cultural de la U.de Chile, donde se dedica a la producción de material informativo para las escuelas de temporada. En 1967 ante la alta demanda del carteles, Larrea instala una oficina en la calle Huérfanos y la carátula del primer disco del grupo folcklórico Quilapayún lo hace conocido.</p>', 'SnCxI9aaL5s', 'youtube', 21.09);
+INSERT INTO content (id, category_topic_id, content_title, content, media, type, time, credits)
+VALUES (12, 6, 'VICENTE LARREA AÑOS 60', '<p>En 1961 ingresa a la Escuela de Artes Aplicadas de la Universidad de Chile, estudia dibujo publicitario y decoración de interiores.</p><p>En 1963 se incorpora al Departamento de Extensión Cultural de la U.de Chile, donde se dedica a la producción de material informativo para las escuelas de temporada. En 1967 ante la alta demanda del carteles, Larrea instala una oficina en la calle Huérfanos y la carátula del primer disco del grupo folcklórico Quilapayún lo hace conocido.</p>', 'SnCxI9aaL5s', 'youtube', 21.09, 'EditorialUsach, youtube. 2012');
 """
 c.execute(sql)
 print "cat 25"
 sql = """
-INSERT INTO content (id, category_topic_id, content_title, content, media, type, time)
-VALUES (13, 7, 'CARTELISMO AÑOS 70', '<p>En 1961 ingresa a la Escuela de Artes Aplicadas de la Universidad de Chile, estudia dibujo publicitario y decoración de interiores.</p><p>En 1963 se incorpora al Departamento de Extensión Cultural de la U.de Chile, donde se dedica a la producción de material informativo para las escuelas de temporada. En 1967 ante la alta demanda del carteles, Larrea instala una oficina en la calle Huérfanos y la carátula del primer disco del grupo folcklórico Quilapayún lo hace conocido.</p>', 'SnCxI9aaL5s', 'youtube', 21.09);
+INSERT INTO content (id, category_topic_id, content_title, content, media, type, time, credits)
+VALUES (13, 7, 'CARTELISMO AÑOS 70', '<p>En 1961 ingresa a la Escuela de Artes Aplicadas de la Universidad de Chile, estudia dibujo publicitario y decoración de interiores.</p><p>En 1963 se incorpora al Departamento de Extensión Cultural de la U.de Chile, donde se dedica a la producción de material informativo para las escuelas de temporada. En 1967 ante la alta demanda del carteles, Larrea instala una oficina en la calle Huérfanos y la carátula del primer disco del grupo folcklórico Quilapayún lo hace conocido.</p>', 'SnCxI9aaL5s', 'youtube', 21.09, 'Prisma tv, vimeo. 2010');
 """
 c.execute(sql)
 print "cat 26"
 sql = """
-INSERT INTO content (id, category_topic_id, content_title, content, media, type, time)
-VALUES (14, 8, 'VICENTE LARREA AÑOS 60', '<p>En 1981 nace la empresa  DA Diseñadores Asociados ofreciendo a sus clientes asesorías integrales y estratégicas en proyectos de imagen corporativa y comunicaciones. Hoy en día DA es un equipo joven que conversa la experiencia, seriedad y metodología durante su trayectoria, incorporando tecnología, creatividad e innovación.</p>', 'EURynRnl8L8', 'youtube', 2.16);
+INSERT INTO content (id, category_topic_id, content_title, content, media, type, time, credits)
+VALUES (14, 8, 'VICENTE LARREA AÑOS 60', '<p>En 1981 nace la empresa  DA Diseñadores Asociados ofreciendo a sus clientes asesorías integrales y estratégicas en proyectos de imagen corporativa y comunicaciones. Hoy en día DA es un equipo joven que conversa la experiencia, seriedad y metodología durante su trayectoria, incorporando tecnología, creatividad e innovación.</p>', 'EURynRnl8L8', 'youtube', 2.16, 'Imprenta Larrea Marca Digital, youtube. 2011');
 """
 c.execute(sql)
 print "cat 27"
 sql = """
-INSERT INTO content (id, category_topic_id, content_title, content, media, type, time)
-VALUES (15, 9, 'COLEGIO DE DISEÑADORES 1985', '<p>Nace en 1985 es el órgano encargado de promover la racionalización, desarrollo y protección de la actividad profesional del diseño en todas sus áreas en nuestro país.</p>', 'qc9pJDWYQdA', 'youtube', 0.35);
+INSERT INTO content (id, category_topic_id, content_title, content, media, type, time, credits)
+VALUES (15, 9, 'COLEGIO DE DISEÑADORES 1985', '<p>Nace en 1985 es el órgano encargado de promover la racionalización, desarrollo y protección de la actividad profesional del diseño en todas sus áreas en nuestro país.</p>', 'qc9pJDWYQdA', 'youtube', 0.35, 'Yiyis Gumis, youtube. 2014');
 """
 c.execute(sql)
 print "cat 28"
 sql = """
-INSERT INTO content (id, category_topic_id, content_title, content, media, type, time)
-VALUES (16, 10, 'VICENTE LARREA DISEÑO SOCIAL V/S DISEÑO COMERCIAL', '<p>Vicente Larrea Fundador de Larrea Diseñadores y Larrea Impresores, nos habla sobre diseño, impresión y la evolución de estos a través del tiempo.</p>', 'jEeq98tW3pA', 'youtube', 1.59);
+INSERT INTO content (id, category_topic_id, content_title, content, media, type, time, credits)
+VALUES (16, 10, 'VICENTE LARREA DISEÑO SOCIAL V/S DISEÑO COMERCIAL', '<p>Vicente Larrea Fundador de Larrea Diseñadores y Larrea Impresores, nos habla sobre diseño, impresión y la evolución de estos a través del tiempo.</p>', 'jEeq98tW3pA', 'youtube', 1.59, 'Imprenta Larrea Marca Digital, youtube. 2011');
 """
 c.execute(sql)
 print "cat 29"
 sql = """
-INSERT INTO content (id, category_topic_id, content_title, content, media, type, time)
-VALUES (17, 10, 'VICENTE LARREA DISEÑO SOCIAL V/S DISEÑO COMERCIAL', '', 'XJHEtWvsNTM', 'youtube', 1.55);
+INSERT INTO content (id, category_topic_id, content_title, content, media, type, time, credits)
+VALUES (17, 10, 'VICENTE LARREA DISEÑO SOCIAL V/S DISEÑO COMERCIAL', '', 'XJHEtWvsNTM', 'youtube', 1.55, 'Imprenta Larrea Marca Digital, youtube. 2011');
 """
 c.execute(sql)
 print "cat 30"
 sql = """
-INSERT INTO content (id, category_topic_id, content_title, content, media, type, time)
-VALUES (18, 11, 'DISEÑO EDITORIAL, PRISMA TV ', '<p>Diseño Editorial especificamente de revistas como Paula, The Clinic y Joia Magazine, los cuales hablan del concepto que hay detrás, el publico objetivo al cual se dirigen, como trabajan, los cambios que han tenido en la editorial y el porque se producen estos cambios y como esta el mercado editorial en Chile.</p>', 'hist11', 'local', 24.43);
+INSERT INTO content (id, category_topic_id, content_title, content, media, type, time, credits)
+VALUES (18, 11, 'DISEÑO EDITORIAL, PRISMA TV ', '<p>Diseño Editorial especificamente de revistas como Paula, The Clinic y Joia Magazine, los cuales hablan del concepto que hay detrás, el publico objetivo al cual se dirigen, como trabajan, los cambios que han tenido en la editorial y el porque se producen estos cambios y como esta el mercado editorial en Chile.</p>', 'hist11', 'local', 24.43, 'Prisma tv, vimeo. 2010');
 """
 c.execute(sql)
 print "cat 31"
 sql = """
-INSERT INTO content (id, category_topic_id, content_title, content, media, type, time)
-VALUES (19, 12, 'NUEVOS MEDIOS, PRISMA TV', '<p>Evolución de los medios, experiencias nuevas que transmiten y cómo están conectados entre si, como lo habitual deja de serlo y que pasa en Chile con estos nuevos medios y cómo están relacionados con el diseño gráfico.</p>', 'hist12', 'local', 25.35);
+INSERT INTO content (id, category_topic_id, content_title, content, media, type, time, credits)
+VALUES (19, 12, 'NUEVOS MEDIOS, PRISMA TV', '<p>Evolución de los medios, experiencias nuevas que transmiten y cómo están conectados entre si, como lo habitual deja de serlo y que pasa en Chile con estos nuevos medios y cómo están relacionados con el diseño gráfico.</p>', 'hist12', 'local', 25.35, 'Prisma tv, vimeo. 2010');
 """
 c.execute(sql)
 print "cat 32"
 sql = """
-INSERT INTO content (id, category_topic_id, content_title, content, media, type, time)
-VALUES (20, 13, 'TIPOGRAFÍA, PRISMA TV ', '<p>La idea de tipografía, cuáles son los conceptos que hay detrás y de acuerdo a esto cual es la que se debería utilizar, y qué esta pasando en Chile en el ámbito tipográfico.</p>', 'hist13', 'local', 25.47);
+INSERT INTO content (id, category_topic_id, content_title, content, media, type, time, credits)
+VALUES (20, 13, 'TIPOGRAFÍA, PRISMA TV ', '<p>La idea de tipografía, cuáles son los conceptos que hay detrás y de acuerdo a esto cual es la que se debería utilizar, y qué esta pasando en Chile en el ámbito tipográfico.</p>', 'hist13', 'local', 25.47, 'Prisma tv, vimeo. 2010');
 """
 c.execute(sql)
 print "cat 33"
 sql = """
-INSERT INTO content (id, category_topic_id, content_title, content, media, type, time)
-VALUES (21, 14, 'STREET ART, PRISMA TV ', '<p>El valor de la calle, la expresión artística y cultural que posee y cómo esto esta relacionado con el diseño gráfico.</p>', 'hist14', 'local', 29.20);
+INSERT INTO content (id, category_topic_id, content_title, content, media, type, time, credits)
+VALUES (21, 14, 'STREET ART, PRISMA TV ', '<p>El valor de la calle, la expresión artística y cultural que posee y cómo esto esta relacionado con el diseño gráfico.</p>', 'hist14', 'local', 29.20, 'Prisma tv, vimeo. 2010');
 """
 c.execute(sql)
 
