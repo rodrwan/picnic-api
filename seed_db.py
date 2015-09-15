@@ -16,8 +16,8 @@ connectionStr = "dbname='{0[0]}' user='{0[1]}' host='{0[2]}'"
 connectionQuery = connectionStr.format(connectionData)
 try:
     urlparse.uses_netloc.append("postgres")
-    # url = urlparse.urlparse('postgres://nlqlebihfzfpyi:TA6U266O4fA3ktsSZhVDg7jG2b@ec2-54-83-205-164.compute-1.amazonaws.com:5432/d1ih96mbtah8j6')
-    url = urlparse.urlparse(os.getenv("DATABASE_URL", 'no url')) #
+    url = urlparse.urlparse('postgres://nlqlebihfzfpyi:TA6U266O4fA3ktsSZhVDg7jG2b@ec2-54-83-205-164.compute-1.amazonaws.com:5432/d1ih96mbtah8j6')
+    # url = urlparse.urlparse(os.getenv("DATABASE_URL", 'no url')) #
     conn = psycopg2.connect(
       database=url.path[1:],
       user=url.username,
@@ -44,9 +44,9 @@ DROP TABLE IF EXISTS "documentaries";
 DROP TABLE IF EXISTS "categories";
 DROP TABLE IF EXISTS "content";
 DROP TABLE IF EXISTS "category_topics";
-DROP TABLE IF EXISTS "users";
 DROP TABLE IF EXISTS "lectures";
 """
+# DROP TABLE IF EXISTS "users";
 c.execute(sql)
 print "system clear"
 sql = """
@@ -116,7 +116,7 @@ CONSTRAINT users_pk PRIMARY KEY (id)
 OIDS=FALSE
 );
 """
-c.execute(sql)
+# c.execute(sql)
 
 sql = """
 CREATE TABLE "lectures" (
@@ -163,7 +163,7 @@ INSERT INTO documentaries (id, thumbnail, title, sub_title, brief, content, medi
 'doc1/thumbnail.png',
 'Como steve jobs cambio el mundo',
 'Documentales, 1 video',
-'Historias y filosofía y logos del creador de la marca Apple.',
+'Historias, filosofía y logros del creador de la marca Apple.',
 'En este documental se repasa la vida, la filosofía y los logros de Steve Jobs creando una de las compañias más rentables, Apple.',
 '1Bhmz0g9CsQ', 'youtube', '43,08', 'Discovery Channel, youtube. 2011');
 """
@@ -174,8 +174,8 @@ INSERT INTO documentaries (id, thumbnail, title, sub_title, brief, content, medi
 'doc2/thumbnail.png',
 'Helvética',
 'Documentales, 1 video',
-'Documental sobre el diseño gráfico, la tipografía y en general sobre la cultura visual, centrado en la tipografía Helvética.',
-'Documental sobre el diseño gráfico, la tipografía y en general sobre la cultura visual. La película se centra en la popular fuente tipográfica Helvética, que en el año 2007 hizo su 50 aniversario, e incluye entrevistas con los mejores nombres del mundo del diseño como Erik Spiekermann, Matthew Carter, Massino Vignelli, Wim Crouwel,, Hernmann Zapf, Neville Brody, Stefan Sagmeister. Con motivo del 50 aniversario de esta tipografía, Gary Hustwit ha dirigido y producido una película documental que explora el uso de la tipografía en los espacios urbanos y aporta la reflexiones de renombramientos diseñadores acerca de su trabajo, el proceso creativo y las elecciones estéticas detrás de su uso.',
+'Documental sobre Diseño Gráfico, Tipografía y Cultura Visual en general. Teniendo como objectivo la tipografía Helvética.',
+'Documental sobre el diseño gráfico, la tipografía y en general sobre la cultura visual. La película se centra en la popular fuente tipográfica Helvética, que en el año 2007 hizo su 50 aniversario, e incluye entrevistas con los mejores nombres del mundo del diseño como Erik Spiekermann, Matthew Carter, Massino Vignelli, Wim Crouwel, Hernmann Zapf, Neville Brody, Stefan Sagmeister. Con motivo del 50 aniversario de esta tipografía, Gary Hustwit ha dirigido y producido una película documental que explora el uso de la tipografía en los espacios urbanos y aporta la reflexiones de renombramientos diseñadores acerca de su trabajo, el proceso creativo y las elecciones estéticas detrás de su uso.',
 'doc2',
 'local',
 '90,42',
@@ -189,7 +189,7 @@ INSERT INTO documentaries (id, thumbnail, title, sub_title, brief, content, medi
 'doc3/thumbnail.png',
 'Objectified',
 'Documentales, 1 video',
-'Documental acerca del diseño industrial y la compleja relación entre los objetos manufacturados y las personas que los diseñan.',
+'Documental acerca del Diseño Industrial y la compleja relación entre los objetos manufacturados y las personas que los diseñan.',
 'Documental sobre el diseño industrial. En él se examinan los objetos y el proceso creativo de quien los diseña: desde los cepillos de dientes hasta los gadgets más sofisticados.',
 'oqPGscXtTg8',
 'youtube',
@@ -200,17 +200,17 @@ INSERT INTO documentaries (id, thumbnail, title, sub_title, brief, content, medi
 c.execute(sql)
 print "doc 3"
 sql = """
-INSERT INTO documentaries (id, thumbnail, title, sub_title, brief, content, media, type, time, credits) VALUES (4, 'doc4/thumbnail.png', 'Estos tíos exóticos de barcelona', 'Documentales, 1 video', 'Documental trata sobre la situación actual del diseño en Barcelona, en el que participan varios diseñadores dando su opinión y lo que esperan del futuro.', 'Creado hace algunos años como proyecto de titulo, este documental trata sobre la situación actual del diseño en Barcelona. En él, varios profesionales del diseño dan sus opiniones sobre la evolución del sector en esta ciudad y lo que esperan que ocurra en el futuro.', 'doc4', 'local', '47,25', 'Gary Hustwit, youtube. 2009');
+INSERT INTO documentaries (id, thumbnail, title, sub_title, brief, content, media, type, time, credits) VALUES (4, 'doc4/thumbnail.png', 'Estos tíos exóticos de barcelona', 'Documentales, 1 video', 'Documental que trata sobre la situación actual del diseño en Barcelona, en el que participan varios diseñadores dando su opinión y lo que esperan del futuro.', 'Creado hace algunos años como proyecto de titulo, este documental trata sobre la situación actual del diseño en Barcelona. En él, varios profesionales del diseño dan sus opiniones sobre la evolución del sector en esta ciudad y lo que esperan que ocurra en el futuro.', 'doc4', 'local', '47,25', 'Gary Hustwit, youtube. 2009');
 """
 c.execute(sql)
 print "doc 4"
 sql = """
-INSERT INTO documentaries (id, thumbnail, title, sub_title, brief, content, media, type, time, credits) VALUES (5, 'doc5/thumbnail.png', '¿Qué es el diseño gráfico?', 'Documentales, 1 video', 'Documental argentino en el cual profesionales del diseño gráfico tratan de explicar qué es el diseño gráfico, de el salen varias preguntas para reflexionar.', 'Documental argentino en el que catedráticos, profesionales y expertos intentan definir “diseño gráfico”. Surgen preguntas interesantes y es un documental que nos hará reflexionar.', 'doc5', 'local', '55,50', 'Cátedra Gabriele, FADU­UBA, youtube. 2013');
+INSERT INTO documentaries (id, thumbnail, title, sub_title, brief, content, media, type, time, credits) VALUES (5, 'doc5/thumbnail.png', '¿Qué es el diseño gráfico?', 'Documentales, 1 video', 'Documental Argentino en el cual profesionales del diseño explican, desde su punto de vista, qué es el diseño gráfico, de él salen varias preguntas para reflexionar.', 'Documental argentino en el que catedráticos, profesionales y expertos intentan definir “diseño gráfico”. Surgen preguntas interesantes y es un documental que nos hará reflexionar.', 'doc5', 'local', '55,50', 'Cátedra Gabriele, FADU­UBA, youtube. 2013');
 """
 c.execute(sql)
 print "doc 5"
 sql = """
-INSERT INTO documentaries (id, thumbnail, title, sub_title, brief, content, media, type, time, credits) VALUES (6, 'doc6/thumbnail.png', 'No logo', 'Documentales, 1 video', 'Basado en el best-seller de Naomi Klein, trata del impacto que tienen las marcas en la sociedad.', 'Documental basado en el best-seller de Naomi Klein del mismo nombre. Trata del impacto de las marcas en la sociedad', 'doc6', 'local', '40,38', 'Naomi Klein, vimeo. 2003');
+INSERT INTO documentaries (id, thumbnail, title, sub_title, brief, content, media, type, time, credits) VALUES (6, 'doc6/thumbnail.png', 'No logo', 'Documentales, 1 video', 'Basado en el best-seller de Naomi Klein, trata del impacto que tienen las marcas en la sociedad.', 'Documental basado en el best-seller de Naomi Klein del mismo nombre. Trata del impacto de las marcas en la sociedad.', 'doc6', 'local', '40,38', 'Naomi Klein, vimeo. 2003');
 """
 c.execute(sql)
 print "doc 6"
@@ -288,7 +288,7 @@ c.execute(sql)
 print "cat 10"
 sql = """
 INSERT INTO category_topics (id, category_id, sub_category_id, sub_category_name, thumbnail, title, sub_title, brief, total_time)
-VALUES (11, 'history', 11, 'Historia del Diseño en Chile', 'history/hist11/hist11.png', 'DISEÑO EDITORIAL, PRISMA TV ', 'Historia del Diseño en Chile, 1 videos', 'Entrevista a Revista Paula, The Clinic, Joia magazine,  portafolio de estudio gráfico Lamano.', 24.43);
+VALUES (11, 'history', 11, 'Historia del Diseño en Chile', 'history/hist11/hist11.png', 'DISEÑO EDITORIAL, PRISMA TV ', 'Historia del Diseño en Chile, 1 videos', 'Entrevista a Revista Paula, The Clinic, Joia magazine, portafolio de estudio gráfico Lamano.', 24.43);
 """
 c.execute(sql)
 print "cat 11"
@@ -374,7 +374,7 @@ c.execute(sql)
 print "cat 23"
 sql = """
 INSERT INTO content (id, category_topic_id, content_title, content, media, type, time, credits)
-VALUES (11, 5, 'ORÍGENES, TRADICIONES Y PRACTICAS', '<p>En Chile, la Escuela de Artes Aplicadas de la Universidad de Chile es el antecedente previo para la fundación, a fines de los setenta, de las primeras escuelas de diseño en el país. De ahí que el Diseño gráfico, como disciplina proyectual y actividad profesional, reconozca un desarrollo de poco más de cuatro décadas. En el capítulo, referentes generacionales de todo este proceso reflexionaran en torno a aristas de índole internacional y nacional privadas de consenso: el origen diferenciado como práctica y disciplina; la conciliación entre la autoría y el funcionalismo; y el complejo distingo de una identidad visual país.</p>', 'qf6FbdhNk7g', 'youtube', 51.01, 'Patricio Muñoz G Dereojo comunicaciones, youtube. 2013');
+VALUES (11, 5, 'ORÍGENES, TRADICIONES Y PRACTICAS', '<p>En Chile, la Escuela de Artes Aplicadas de la Universidad de Chile es el antecedente previo para la fundación, a fines de los setenta, de las primeras escuelas de diseño en el país. De ahí que el Diseño Gráfico, como disciplina proyectual y actividad profesional, reconozca un desarrollo de poco más de cuatro décadas. En el capítulo, referentes generacionales de todo este proceso reflexionaran en torno a aristas de índole internacional y nacional privadas de consenso: el origen diferenciado como práctica y disciplina; la conciliación entre la autoría y el funcionalismo; y el complejo distingo de una identidad visual país.</p>', 'qf6FbdhNk7g', 'youtube', 51.01, 'Patricio Muñoz G Dereojo comunicaciones, youtube. 2013');
 """
 c.execute(sql)
 print "cat 24"
@@ -386,13 +386,14 @@ c.execute(sql)
 print "cat 25"
 sql = """
 INSERT INTO content (id, category_topic_id, content_title, content, media, type, time, credits)
-VALUES (13, 7, 'CARTELISMO AÑOS 70', '<p>En 1961 ingresa a la Escuela de Artes Aplicadas de la Universidad de Chile, estudia dibujo publicitario y decoración de interiores.</p><p>En 1963 se incorpora al Departamento de Extensión Cultural de la U.de Chile, donde se dedica a la producción de material informativo para las escuelas de temporada. En 1967 ante la alta demanda del carteles, Larrea instala una oficina en la calle Huérfanos y la carátula del primer disco del grupo folcklórico Quilapayún lo hace conocido.</p>', 'SnCxI9aaL5s', 'youtube', 21.09, 'Prisma tv, vimeo. 2010');
+VALUES (13, 7, 'CARTELISMO AÑOS 70', '<p>Cartel Social, legado Histórico de los afiches de la Polla Chilena de Beneficencia.</p><p>El cartel político de izquierda chilena bajo el gobierno de la Unidad Popular (UP), comenzó a difundirse en la paredes de las ciudades, en los meses previos a la elección presidencial en 1970 y los tres siguientes años de mandato del socialista, el médico Salvador Allende. La primera etapa del cartel chileno fue realizada en la campaña para el presidente Allende y el conglomerado de la UP, finalizando con el triunfo de éste en septiembre de 1970. Como segunda etapa el cartel se desarrolló y alcanzó una renovación de sus códigos estilísticos y mensajes, su procesos y natural madurez se verán truncados por el golpe de estado del 11 de septiembre de 1973.
+</p>', 'SnCxI9aaL5s', 'youtube', 21.09, 'Prisma tv, vimeo. 2010');
 """
 c.execute(sql)
 print "cat 26"
 sql = """
 INSERT INTO content (id, category_topic_id, content_title, content, media, type, time, credits)
-VALUES (14, 8, 'VICENTE LARREA AÑOS 60', '<p>En 1981 nace la empresa  DA Diseñadores Asociados ofreciendo a sus clientes asesorías integrales y estratégicas en proyectos de imagen corporativa y comunicaciones. Hoy en día DA es un equipo joven que conversa la experiencia, seriedad y metodología durante su trayectoria, incorporando tecnología, creatividad e innovación.</p>', 'EURynRnl8L8', 'youtube', 2.16, 'Imprenta Larrea Marca Digital, youtube. 2011');
+VALUES (14, 8, 'VICENTE LARREA AÑOS 60', '<p>En 1981 nace la empresa DA Diseñadores Asociados ofreciendo a sus clientes asesorías integrales y estratégicas en proyectos de imagen corporativa y comunicaciones. Hoy en día DA es un equipo joven que conversa la experiencia, seriedad y metodología durante su trayectoria, incorporando tecnología, creatividad e innovación.</p>', 'EURynRnl8L8', 'youtube', 2.16, 'Imprenta Larrea Marca Digital, youtube. 2011');
 """
 c.execute(sql)
 print "cat 27"
@@ -416,7 +417,7 @@ c.execute(sql)
 print "cat 30"
 sql = """
 INSERT INTO content (id, category_topic_id, content_title, content, media, type, time, credits)
-VALUES (18, 11, 'DISEÑO EDITORIAL, PRISMA TV ', '<p>Diseño Editorial especificamente de revistas como Paula, The Clinic y Joia Magazine, los cuales hablan del concepto que hay detrás, el publico objetivo al cual se dirigen, como trabajan, los cambios que han tenido en la editorial y el porque se producen estos cambios y como esta el mercado editorial en Chile.</p>', 'hist11', 'local', 24.43, 'Prisma tv, vimeo. 2010');
+VALUES (18, 11, 'DISEÑO EDITORIAL, PRISMA TV ', '<p>Diseño Editorial específicamente de revistas como Paula, The Clinic y Joia Magazine, los cuales hablan del concepto que hay detrás, el publico objetivo al cual se dirigen, como trabajan, los cambios que han tenido en la editorial y el porque se producen estos cambios y como esta el mercado editorial en Chile.</p>', 'hist11', 'local', 24.43, 'Prisma tv, vimeo. 2010');
 """
 c.execute(sql)
 print "cat 31"
@@ -532,7 +533,8 @@ c.execute(sql)
 print "cat 49"
 conn.commit()
 print "commit"
-c.close()
-
+print "closing connection"
+# c.close()
+conn.close()
 
 print "finished"
