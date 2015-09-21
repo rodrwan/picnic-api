@@ -14,27 +14,27 @@ pghost = os.environ.get('PG_HOST')
 connectionData  = pgdb, pguser, pghost
 connectionStr = "dbname='{0[0]}' user='{0[1]}' host='{0[2]}'"
 connectionQuery = connectionStr.format(connectionData)
-try:
-    urlparse.uses_netloc.append("postgres")
-    url = urlparse.urlparse('postgres://nlqlebihfzfpyi:TA6U266O4fA3ktsSZhVDg7jG2b@ec2-54-83-205-164.compute-1.amazonaws.com:5432/d1ih96mbtah8j6')
-    # url = urlparse.urlparse(os.getenv("DATABASE_URL", 'no url')) #
-    conn = psycopg2.connect(
-      database=url.path[1:],
-      user=url.username,
-      password=url.password,
-      host=url.hostname,
-      port=url.port
-    )
-except:
-    conn = psycopg2.connect(connectionQuery)
+# try:
+#     urlparse.uses_netloc.append("postgres")
+#     url = urlparse.urlparse('postgres://nlqlebihfzfpyi:TA6U266O4fA3ktsSZhVDg7jG2b@ec2-54-83-205-164.compute-1.amazonaws.com:5432/d1ih96mbtah8j6')
+#     # url = urlparse.urlparse(os.getenv("DATABASE_URL", 'no url')) #
+#     conn = psycopg2.connect(
+#       database=url.path[1:],
+#       user=url.username,
+#       password=url.password,
+#       host=url.hostname,
+#       port=url.port
+#     )
+# except:
+conn = psycopg2.connect(connectionQuery)
 
 print "Create SQLite db"
 c = conn.cursor()
 
 sql = """
-ALTER TABLE "category_topics" DROP CONSTRAINT category_topics_fk0;
-ALTER TABLE "lectures" DROP CONSTRAINT lectures_fk0;
-ALTER TABLE "content" DROP CONSTRAINT content_pk;
+ALTER TABLE IF EXISTS "category_topics" DROP CONSTRAINT category_topics_fk0;
+ALTER TABLE IF EXISTS "lectures" DROP CONSTRAINT lectures_fk0;
+ALTER TABLE IF EXISTS "content" DROP CONSTRAINT content_pk;
 """
 c.execute(sql)
 print "alter droped"
@@ -116,7 +116,7 @@ CONSTRAINT users_pk PRIMARY KEY (id)
 OIDS=FALSE
 );
 """
-# c.execute(sql)
+c.execute(sql)
 
 sql = """
 CREATE TABLE "lectures" (
@@ -159,6 +159,18 @@ ALTER TABLE "content" ADD CONSTRAINT content_fk0 FOREIGN KEY (category_topic_id)
 c.execute(sql)
 
 sql = """
+CREATE TABLE "latest_post" (
+"id" SERIAL NOT NULL,
+"post_id" integer NOT NULL,
+"kind" TEXT NOT NULL
+) WITH (
+OIDS=FALSE
+);
+"""
+
+c.execute(sql)
+
+sql = """
 INSERT INTO documentaries (id, thumbnail, title, sub_title, brief, content, media, type, time, credits) VALUES (1,
 'doc1/thumbnail.png',
 'Como steve jobs cambio el mundo',
@@ -166,6 +178,10 @@ INSERT INTO documentaries (id, thumbnail, title, sub_title, brief, content, medi
 'Historias, filosofía y logros del creador de la marca Apple.',
 'En este documental se repasa la vida, la filosofía y los logros de Steve Jobs creando una de las compañias más rentables, Apple.',
 '1Bhmz0g9CsQ', 'youtube', '43,08', 'Discovery Channel, youtube. 2011');
+"""
+c.execute(sql)
+sql = """
+INSERT INTO latest_post (id, post_id, kind) VALUES (1, 1, 'documentaries');
 """
 c.execute(sql)
 print "doc 1"
@@ -183,6 +199,10 @@ INSERT INTO documentaries (id, thumbnail, title, sub_title, brief, content, medi
 );
 """
 c.execute(sql)
+sql = """
+INSERT INTO latest_post (id, post_id, kind) VALUES (2, 2, 'documentaries');
+"""
+c.execute(sql)
 print "doc 2"
 sql = """
 INSERT INTO documentaries (id, thumbnail, title, sub_title, brief, content, media, type, time, credits) VALUES (3,
@@ -198,9 +218,17 @@ INSERT INTO documentaries (id, thumbnail, title, sub_title, brief, content, medi
 );
 """
 c.execute(sql)
+sql = """
+INSERT INTO latest_post (id, post_id, kind) VALUES (3, 3, 'documentaries');
+"""
+c.execute(sql)
 print "doc 3"
 sql = """
 INSERT INTO documentaries (id, thumbnail, title, sub_title, brief, content, media, type, time, credits) VALUES (4, 'doc4/thumbnail.png', 'Estos tíos exóticos de barcelona', 'Documentales, 1 video', 'Documental que trata sobre la situación actual del diseño en Barcelona, en el que participan varios diseñadores dando su opinión y lo que esperan del futuro.', 'Creado hace algunos años como proyecto de titulo, este documental trata sobre la situación actual del diseño en Barcelona. En él, varios profesionales del diseño dan sus opiniones sobre la evolución del sector en esta ciudad y lo que esperan que ocurra en el futuro.', 'doc4', 'local', '47,25', 'Gary Hustwit, youtube. 2009');
+"""
+c.execute(sql)
+sql = """
+INSERT INTO latest_post (id, post_id, kind) VALUES (4, 4, 'documentaries');
 """
 c.execute(sql)
 print "doc 4"
@@ -208,9 +236,17 @@ sql = """
 INSERT INTO documentaries (id, thumbnail, title, sub_title, brief, content, media, type, time, credits) VALUES (5, 'doc5/thumbnail.png', '¿Qué es el diseño gráfico?', 'Documentales, 1 video', 'Documental Argentino en el cual profesionales del diseño explican, desde su punto de vista, qué es el diseño gráfico, de él salen varias preguntas para reflexionar.', 'Documental argentino en el que catedráticos, profesionales y expertos intentan definir “diseño gráfico”. Surgen preguntas interesantes y es un documental que nos hará reflexionar.', 'doc5', 'local', '55,50', 'Cátedra Gabriele, FADU­UBA, youtube. 2013');
 """
 c.execute(sql)
+sql = """
+INSERT INTO latest_post (id, post_id, kind) VALUES (5, 5, 'documentaries');
+"""
+c.execute(sql)
 print "doc 5"
 sql = """
 INSERT INTO documentaries (id, thumbnail, title, sub_title, brief, content, media, type, time, credits) VALUES (6, 'doc6/thumbnail.png', 'No logo', 'Documentales, 1 video', 'Basado en el best-seller de Naomi Klein, trata del impacto que tienen las marcas en la sociedad.', 'Documental basado en el best-seller de Naomi Klein del mismo nombre. Trata del impacto de las marcas en la sociedad.', 'doc6', 'local', '40,38', 'Naomi Klein, vimeo. 2003');
+"""
+c.execute(sql)
+sql = """
+INSERT INTO latest_post (id, post_id, kind) VALUES (6, 6, 'documentaries');
 """
 c.execute(sql)
 print "doc 6"
@@ -219,6 +255,7 @@ INSERT INTO categories (id, title, image, description)
 VALUES ('history', 'Historia y Teoría', 'history.jpg', 'Descubre videos de historia del arte, acotencimientos historicos de los tiempos del diseño, y todo sobre cultura.');
 """
 c.execute(sql)
+
 print "history"
 sql = """
 INSERT INTO categories (id, title, image, description)
@@ -231,10 +268,18 @@ INSERT INTO category_topics (id, category_id, sub_category_id, sub_category_name
 VALUES (1, 'history', 1, 'Historia del Diseño', 'history/hist1/hist1.jpg', 'Art & craft', 'Historia del diseño, 1 video', 'Surgió en las últimas décadas del siglo XIX contra el primer estilo industrial desarrollado en Inglaterra, el estilo Victoriano.', 05.05);
 """
 c.execute(sql)
+sql = """
+INSERT INTO latest_post (id, post_id, kind) VALUES (7, 1, 'categories');
+"""
+c.execute(sql)
 print "cat 1"
 sql = """
 INSERT INTO category_topics (id, category_id, sub_category_id, sub_category_name, thumbnail, title, sub_title, brief, total_time)
 VALUES (2, 'history', 2, 'Historia del Diseño', 'history/hist2/hist2.jpg', 'Vanguardias', 'Historia del diseño, 3 videos', 'Feuvismo conocido como Fauvismo 1904-1908, Cubismo 1907-1914, Futurismo 1909.', 13.28);
+"""
+c.execute(sql)
+sql = """
+INSERT INTO latest_post (id, post_id, kind) VALUES (8, 2, 'categories');
 """
 c.execute(sql)
 print "cat 2"
@@ -243,10 +288,18 @@ INSERT INTO category_topics (id, category_id, sub_category_id, sub_category_name
 VALUES (3, 'history', 3, 'Historia del Diseño', 'history/hist3/hist3.jpg', 'Posguerra', 'Historia del diseño, 4 videos', 'Con el fin de la segunda guerra Mundial se consolida el diseño Industrial, en Alemania e Italia este fue un factor determinante para la reconstrucción de sus respectivos países y el refuerzo de su identidad.', 19.42);
 """
 c.execute(sql)
+sql = """
+INSERT INTO latest_post (id, post_id, kind) VALUES (9, 3, 'categories');
+"""
+c.execute(sql)
 print "cat 3"
 sql = """
 INSERT INTO category_topics (id, category_id, sub_category_id, sub_category_name, thumbnail, title, sub_title, brief, total_time)
 VALUES (4, 'history', 4, 'Historia del Diseño', 'history/hist4/hist4.jpg', 'Posmodernismo', 'Historia del diseño, 2 videos', 'Surge un amplio numero de movimientos artísticos, culturales, literarios y filosóficos del siglo XX.', 34.70);
+"""
+c.execute(sql)
+sql = """
+INSERT INTO latest_post (id, post_id, kind) VALUES (10, 4, 'categories');
 """
 c.execute(sql)
 print "cat 4"
@@ -255,10 +308,18 @@ INSERT INTO category_topics (id, category_id, sub_category_id, sub_category_name
 VALUES (5, 'history', 5, 'Historia del Diseño en Chile', 'history/hist5/hist5.png', 'ORÍGENES, TRADICIONES Y PRACTICAS', 'Historia del Diseño en Chile, 1 video', 'En el siglo XVIII, las Bellas Artes se separan de las prácticas artísticas con fines utilitarios, y la industrialización da paso al nacimiento de las llamadas Artes Aplicadas.', 51.01);
 """
 c.execute(sql)
+sql = """
+INSERT INTO latest_post (id, post_id, kind) VALUES (11, 5, 'categories');
+"""
+c.execute(sql)
 print "cat 5"
 sql = """
 INSERT INTO category_topics (id, category_id, sub_category_id, sub_category_name, thumbnail, title, sub_title, brief, total_time)
 VALUES (6, 'history', 6, 'Historia del Diseño en Chile', 'history/hist6/hist6.jpg', 'VICENTE LARREA AÑOS 60', 'Historia del Diseño en Chile, 1 videos', 'Se reconoce como un muchacho inquieto, que no fue ninguna lumbrera, porque desde que tomó la primera tiza, se dio cuenta que lo suyo eran las rayas, el dibujo, el diseño.', 21.09);
+"""
+c.execute(sql)
+sql = """
+INSERT INTO latest_post (id, post_id, kind) VALUES (12, 6, 'categories');
 """
 c.execute(sql)
 print "cat 6"
@@ -267,10 +328,18 @@ INSERT INTO category_topics (id, category_id, sub_category_id, sub_category_name
 VALUES (7, 'history', 7, 'Historia del Diseño en Chile', 'history/hist7/hist7.png', 'CARTELISMO AÑOS 70', 'Historia del Diseño en Chile, 1 videos', 'Carteles políticos del periodo de gobierno de Salvador Allende y la Unidad Popular de Chile (1971-1973).', 3.28);
 """
 c.execute(sql)
+sql = """
+INSERT INTO latest_post (id, post_id, kind) VALUES (12, 7, 'categories');
+"""
+c.execute(sql)
 print "cat 7"
 sql = """
 INSERT INTO category_topics (id, category_id, sub_category_id, sub_category_name, thumbnail, title, sub_title, brief, total_time)
 VALUES (8, 'history', 8, 'Historia del Diseño en Chile', 'history/hist8/hist8.png', 'DA DISEÑADORES ASOCIADOS 1981', 'Historia del Diseño en Chile, 1 videos', 'Se funda la primera empresa de diseño "Diseñadores Asociados"', 2.16);
+"""
+c.execute(sql)
+sql = """
+INSERT INTO latest_post (id, post_id, kind) VALUES (13, 8, 'categories');
 """
 c.execute(sql)
 print "cat 8"
@@ -279,10 +348,18 @@ INSERT INTO category_topics (id, category_id, sub_category_id, sub_category_name
 VALUES (9, 'history', 9, 'Historia del Diseño en Chile', 'history/hist9/hist9.png', 'COLEGIO DE DISEÑADORES 1985', 'Historia del Diseño en Chile, 1 videos', 'Creación del Colegio de Diseñadores Profesionales de Chile.', 0.35);
 """
 c.execute(sql)
+sql = """
+INSERT INTO latest_post (id, post_id, kind) VALUES (14, 9, 'categories');
+"""
+c.execute(sql)
 print "cat 9"
 sql = """
 INSERT INTO category_topics (id, category_id, sub_category_id, sub_category_name, thumbnail, title, sub_title, brief, total_time)
 VALUES (10, 'history', 10, 'Historia del Diseño en Chile', 'history/hist10/hist10.png', 'VICENTE LARREA DISEÑO SOCIAL V/S DISEÑO COMERCIAL', 'Historia del Diseño en Chile, 2 videos', 'El destacado diseñador habla sobre el diseño, la impresión y la evolución de estos.', 3.14);
+"""
+c.execute(sql)
+sql = """
+INSERT INTO latest_post (id, post_id, kind) VALUES (15, 10, 'categories');
 """
 c.execute(sql)
 print "cat 10"
@@ -291,10 +368,18 @@ INSERT INTO category_topics (id, category_id, sub_category_id, sub_category_name
 VALUES (11, 'history', 11, 'Historia del Diseño en Chile', 'history/hist11/hist11.png', 'DISEÑO EDITORIAL, PRISMA TV ', 'Historia del Diseño en Chile, 1 videos', 'Entrevista a Revista Paula, The Clinic, Joia magazine, portafolio de estudio gráfico Lamano.', 24.43);
 """
 c.execute(sql)
+sql = """
+INSERT INTO latest_post (id, post_id, kind) VALUES (16, 11, 'categories');
+"""
+c.execute(sql)
 print "cat 11"
 sql = """
 INSERT INTO category_topics (id, category_id, sub_category_id, sub_category_name, thumbnail, title, sub_title, brief, total_time)
 VALUES (12, 'history', 12, 'Historia del Diseño en Chile', 'history/hist12/hist12.png', 'NUEVOS MEDIOS, PRISMA TV', 'Historia del Diseño en Chile, 1 videos', 'Entrevista a DelightLab, Sebastián Skoknic y Oktopus, portafolio de Ayerviernes.', 25.35);
+"""
+c.execute(sql)
+sql = """
+INSERT INTO latest_post (id, post_id, kind) VALUES (17, 12, 'categories');
 """
 c.execute(sql)
 print "cat 12"
@@ -303,10 +388,18 @@ INSERT INTO category_topics (id, category_id, sub_category_id, sub_category_name
 VALUES (13, 'history', 13, 'Historia del Diseño en Chile', 'history/hist13/hist13.png', 'TIPOGRAFÍA, PRISMA TV', 'Historia del Diseño en Chile, 1 videos', 'Entrevista a Latinotype, Francisco Gálvez, Roberto Osses y Zelén Vargas, portafolio de Leyenda.', 25.47);
 """
 c.execute(sql)
+sql = """
+INSERT INTO latest_post (id, post_id, kind) VALUES (18, 13, 'categories');
+"""
+c.execute(sql)
 print "cat 13"
 sql = """
 INSERT INTO category_topics (id, category_id, sub_category_id, sub_category_name, thumbnail, title, sub_title, brief, total_time)
 VALUES (14, 'history', 14, 'Historia del Diseño en Chile', 'history/hist14/hist14.png', 'STREET ART, PRISMA TV', 'Historia del Diseño en Chile, 1 videos', 'Entrevistados Raverlab, Galería Bomb y Mono González, portafolio de Carburadores.', 29.20);
+"""
+c.execute(sql)
+sql = """
+INSERT INTO latest_post (id, post_id, kind) VALUES (19, 14, 'categories');
 """
 c.execute(sql)
 print "cat 14"

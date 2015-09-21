@@ -99,6 +99,31 @@ def api_doc():
 
     return dict(title=title)
 
+@route('/api/latest', method=['GET'])
+@enable_cors
+def latest():
+    response.content_type = 'application/json; charset=utf-8'
+    db = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    sql = "SELECT id, post_id, kind FROM latest_post ORDER BY id DESC LIMIT 6;"
+    db.execute(sql)
+    rows = db.fetchall()
+
+    data = []
+    for row in rows:
+        section = 'category_topics' if row[2] == 'categories' else row[2]
+        sql = "SELECT * FROM " + section + " WHERE id = '" + str(row[1]) + "';"
+        db.execute(sql)
+        queryResult = db.fetchall()
+
+        for res in queryResult:
+            result = {}
+            result['sectype'] = row[2]
+            for key, value in res.items():
+                result[key] = value
+            data.append(result)
+
+    db.close()
+    return json.dumps(data)
 
 @route('/api/documentaries', methods=['GET'])
 @enable_cors
