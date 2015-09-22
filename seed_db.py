@@ -14,19 +14,19 @@ pghost = os.environ.get('PG_HOST')
 connectionData  = pgdb, pguser, pghost
 connectionStr = "dbname='{0[0]}' user='{0[1]}' host='{0[2]}'"
 connectionQuery = connectionStr.format(connectionData)
-# try:
-#     urlparse.uses_netloc.append("postgres")
-#     url = urlparse.urlparse('postgres://nlqlebihfzfpyi:TA6U266O4fA3ktsSZhVDg7jG2b@ec2-54-83-205-164.compute-1.amazonaws.com:5432/d1ih96mbtah8j6')
-#     # url = urlparse.urlparse(os.getenv("DATABASE_URL", 'no url')) #
-#     conn = psycopg2.connect(
-#       database=url.path[1:],
-#       user=url.username,
-#       password=url.password,
-#       host=url.hostname,
-#       port=url.port
-#     )
-# except:
-conn = psycopg2.connect(connectionQuery)
+try:
+    urlparse.uses_netloc.append("postgres")
+    url = urlparse.urlparse('postgres://nlqlebihfzfpyi:TA6U266O4fA3ktsSZhVDg7jG2b@ec2-54-83-205-164.compute-1.amazonaws.com:5432/d1ih96mbtah8j6')
+    # url = urlparse.urlparse(os.getenv("DATABASE_URL", 'no url')) #
+    conn = psycopg2.connect(
+      database=url.path[1:],
+      user=url.username,
+      password=url.password,
+      host=url.hostname,
+      port=url.port
+    )
+except:
+    conn = psycopg2.connect(connectionQuery)
 
 print "Create SQLite db"
 c = conn.cursor()
@@ -116,7 +116,7 @@ CONSTRAINT users_pk PRIMARY KEY (id)
 OIDS=FALSE
 );
 """
-c.execute(sql)
+# c.execute(sql)
 
 sql = """
 CREATE TABLE "lectures" (

@@ -114,10 +114,14 @@ def latest():
         sql = "SELECT * FROM " + section + " WHERE id = '" + str(row[1]) + "';"
         db.execute(sql)
         queryResult = db.fetchall()
+        sql = "SELECT credits FROM content WHERE id = '" + str(row[1]) + "';"
+        db.execute(sql)
+        contentResult = db.fetchall()[0][0]
 
         for res in queryResult:
             result = {}
             result['sectype'] = row[2]
+            result['credit'] = contentResult
             for key, value in res.items():
                 result[key] = value
             data.append(result)
