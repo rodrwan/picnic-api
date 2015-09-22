@@ -40,6 +40,8 @@ c.execute(sql)
 print "alter droped"
 
 sql = """
+DROP TABLE IF EXISTS "latest_post";
+DROP TABLE IF EXISTS "expositions";
 DROP TABLE IF EXISTS "documentaries";
 DROP TABLE IF EXISTS "categories";
 DROP TABLE IF EXISTS "content";
@@ -49,6 +51,23 @@ DROP TABLE IF EXISTS "lectures";
 # DROP TABLE IF EXISTS "users";
 c.execute(sql)
 print "system clear"
+
+sql = """
+CREATE TABLE "expositions" (
+"id" integer NOT NULL,
+"thumbnail" TEXT NOT NULL,
+"title" TEXT NOT NULL,
+"place" TEXT NOT NULL,
+"brief" TEXT NOT NULL,
+"content" TEXT NOT NULL,
+"date" TEXT NOT NULL,
+CONSTRAINT expositions_pk PRIMARY KEY (id)
+) WITH (
+OIDS=FALSE
+);
+"""
+c.execute(sql)
+
 sql = """
 CREATE TABLE "documentaries" (
 "id" integer NOT NULL,
@@ -170,6 +189,104 @@ OIDS=FALSE
 
 c.execute(sql)
 
+### EXPOSITIONS
+#
+#
+#
+sql = """
+INSERT INTO expositions (id, thumbnail, title, place, brief, content, date) VALUES (1,
+  'expo1/1.png',
+  'Grandes Maestros',
+  'Centro Cultural La Moneda',
+  'Colección Fomento Cultural Banamex presenta una exuberante exposición, con más de 2500 piezas de las más diversas expresiones del Arte Popular.',
+  '', '');
+"""
+c.execute(sql)
+
+sql = """
+INSERT INTO latest_post (id, post_id, kind) VALUES (20, 1, 'expositions');
+"""
+c.execute(sql)
+
+sql = """
+INSERT INTO expositions (id, thumbnail, title, place, brief, content, date) VALUES (2,
+  'expo2/2.png',
+  'Retrivisión',
+  'Centro Cultural La Moneda',
+  'Una atractiva muestra en diseño de afiches que da cuenta de más de 30 años de historic.',
+  '', '');
+"""
+c.execute(sql)
+
+sql = """
+INSERT INTO latest_post (id, post_id, kind) VALUES (21, 2, 'expositions');
+"""
+c.execute(sql)
+
+sql = """
+INSERT INTO expositions (id, thumbnail, title, place, brief, content, date) VALUES (3,
+  'expo3/3.png',
+  'Art stgo',
+  'Centro Cultural Gabriela Mistral',
+  'Muestra de arte contemporáneo que congregará a más de 100 artistas nacionales en una feria, que incluirá venta de obras...',
+  '', '');
+"""
+c.execute(sql)
+
+sql = """
+INSERT INTO latest_post (id, post_id, kind) VALUES (22, 3, 'expositions');
+"""
+c.execute(sql)
+
+
+sql = """
+INSERT INTO expositions (id, thumbnail, title, place, brief, content, date) VALUES (4,
+  'expo4/4.png',
+  'Hugo Marín - De colección',
+  'Centro Cultural De Las Condes',
+  'Una exposición antológica del artista chile Hugo Marín, integrada por medio centenar de esmaltes, pinturas, collages, dibujos y esculturas.',
+  '', '');
+"""
+c.execute(sql)
+
+sql = """
+INSERT INTO latest_post (id, post_id, kind) VALUES (23, 4, 'expositions');
+"""
+c.execute(sql)
+
+
+sql = """
+INSERT INTO expositions (id, thumbnail, title, place, brief, content, date) VALUES (5,
+  'expo5/5.jpg',
+  'David Lachapelle',
+  'Museo de Arte Contemporáneo',
+  'David LaChapelle es un fotógrafo y director estadounidense, cuyo trabajo se caracteriza por presentar imágenes grotescamente glamurosas.',
+  '', '');
+"""
+c.execute(sql)
+sql = """
+INSERT INTO latest_post (id, post_id, kind) VALUES (24, 5, 'expositions');
+"""
+c.execute(sql)
+
+sql = """
+INSERT INTO expositions (id, thumbnail, title, place, brief, content, date) VALUES (6,
+  'expo6/6.jpg',
+  'Arte Popular',
+  'Cineteca nacional - nivel 2',
+  'Actividad a realizar por el Centro Cultural La Moneda en marco de la exposición GRANDES MAESTROS - Arte Popular de Iberoamerica.',
+  '', '');
+"""
+c.execute(sql)
+sql = """
+INSERT INTO latest_post (id, post_id, kind) VALUES (25, 6, 'expositions');
+"""
+c.execute(sql)
+
+#### DOCUMENTARIES
+#
+#
+#
 sql = """
 INSERT INTO documentaries (id, thumbnail, title, sub_title, brief, content, media, type, time, credits) VALUES (1,
 'doc1/thumbnail.png',

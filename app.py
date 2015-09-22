@@ -129,6 +129,27 @@ def latest():
     db.close()
     return json.dumps(data)
 
+@route('/api/expositions', method=['GET'])
+@enable_cors
+def expositions():
+    response.content_type = 'application/json; charset=utf-8'
+    db = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    sql = "SELECT * FROM expositions;"
+    db.execute(sql)
+    rows = db.fetchall()
+    db.close()
+
+    data = []
+    for row in rows:
+        category = {}
+        for key, value in row.items():
+            category[key] = value
+        data.append(category)
+    if data:
+        return json.dumps(data)
+    else:
+        return json.dumps([])
+
 @route('/api/documentaries', methods=['GET'])
 @enable_cors
 def documentaries():
